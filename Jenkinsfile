@@ -1,9 +1,22 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'maven'
+      args '-v C:\\mvn\\bin:/root/.m2'
+    }
+    
+  }
   stages {
     stage('Init') {
       steps {
-        echo 'This is same pipeline '
+        sh '''echo $PATH
+echo PATH={path}
+mvn clean'''
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'mvn clean install'
       }
     }
   }
